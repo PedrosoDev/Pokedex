@@ -13,9 +13,10 @@ export default function PokeListTeamPage() {
     <>
       <Header />
       <main className="w-full">
-        <div className="w-full grid grid-cols-3 gap-4 py-4 px-6">
+        <div className="w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {pokeNamesOfTeam?.map((pokeName) => (
             <PokeCard
+              key={pokeName}
               pokeName={pokeName}
               onClick={() => openModal({ name: pokeName, url: "" })}
             />

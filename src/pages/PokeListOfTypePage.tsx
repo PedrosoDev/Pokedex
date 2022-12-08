@@ -19,7 +19,7 @@ export default function PokeListOfTypePage() {
   const { data } = usePokeListOfTypeQuery(typeName.toLowerCase());
 
   return (
-    <section className="w-full grid grid-cols-3 gap-4">
+    <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       {data?.pokemon.map(({ pokemon }) => (
         <PokeCard
           key={pokemon.name}

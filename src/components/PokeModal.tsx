@@ -56,12 +56,12 @@ export default function PokeModal({ pokeName }: PropsType) {
 
   if (isPokeDataError) {
     return (
-      <div className="flex flex-col justify-center items-center p-4 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-10 bg-white w-2/3 h-2/3 rounded-md shadow-md">
+      <div className="flex flex-col justify-center items-center overscroll-none p-4 fixed bottom-0 sm:bottom-auto sm:top-1/2 left-1/2 sm:-translate-y-1/2 -translate-x-1/2 z-10 bg-white w-full sm:w-2/3 h-3/4 rounded-md shadow-md">
         <img
           src="https://raw.githubusercontent.com/jnovack/pokemon-svg/master/svg/25.svg"
-          className="grayscale opacity-40"
+          className="grayscale opacity-40 h-1/2 max-h-xs mx-auto"
         />
-        <h1 className="text-3xl text-slate-300 font-medium">
+        <h1 className="text-3xl text-slate-300 font-medium text-center">
           Pokemon not found!
         </h1>
       </div>
@@ -70,20 +70,20 @@ export default function PokeModal({ pokeName }: PropsType) {
 
   if (isPokeDataFetching) {
     return (
-      <div className="flex justify-center items-center p-4 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-10 bg-white w-2/3 h-2/3 rounded-md shadow-md">
+      <div className="flex flex-col justify-center items-center overscroll-none p-4 fixed bottom-0 sm:bottom-auto sm:top-1/2 left-1/2 sm:-translate-y-1/2 -translate-x-1/2 z-10 bg-white w-full sm:w-2/3 h-3/4 rounded-md shadow-md">
         <PokeBallLoading />
       </div>
     );
   }
 
   return (
-    <div className="grid p-4 grid-cols-2 gap-8 fixed top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-10 bg-white w-2/3 h-min-2/3 rounded-md shadow-md">
+    <div className="flex flex-col overflow-y-auto overscroll-none sm:grid p-4 sm:grid-cols-2 sm:gap-8 fixed bottom-0 sm:bottom-auto sm:top-1/2 left-1/2 sm:-translate-y-1/2 -translate-x-1/2 z-10 bg-white w-full sm:w-2/3 h-3/4 rounded-md shadow-md">
       <div className="m-auto h-full w-full flex flex-col">
         <img
-          className="m-auto h-3/4"
+          className="m-auto h-3/2 w-3/2 sm:h-3/4 sm:w-auto"
           src={pokeData?.sprites.other.dream_world.front_default}
         />
-        <div>
+        <div className="hidden sm:block">
           <h1 className="text-xl font-medium">Evolutions:</h1>
           {isPokeEvoFetching && <EllipseLoading />}
           {evoList.map((evo) => (
@@ -106,7 +106,7 @@ export default function PokeModal({ pokeName }: PropsType) {
           ))}
         </div>
       </div>
-      <div>
+      <div className="flex flex-col items-center sm:items-start w-full max-w-sm mx-auto">
         <h1 className="text-3xl capitalize font-medium">
           {pokeData?.name}
           <span className="my-auto ml-3 text-slate-400 font-medium text-base">
@@ -125,7 +125,7 @@ export default function PokeModal({ pokeName }: PropsType) {
           ))}
         </div>
 
-        <div className="flex flex-row justify-between items-start">
+        <div className="flex flex-row w-full justify-between items-start">
           <h2 className="flex flex-col items-start font-medium">
             Height
             <span className="text-slate-400 text-sm">
@@ -151,7 +151,7 @@ export default function PokeModal({ pokeName }: PropsType) {
           </h2>
         </div>
 
-        <div>
+        <div className="w-full">
           <h1 className="text-xl font-medium">Stats</h1>
           {pokeData?.stats.map((stat) => (
             <div
@@ -167,6 +167,28 @@ export default function PokeModal({ pokeName }: PropsType) {
                 className="progress"
               ></progress>
             </div>
+          ))}
+        </div>
+        <div className="mt-6 sm:m-0 sm:hidden">
+          <h1 className="text-xl font-medium">Evolutions:</h1>
+          {isPokeEvoFetching && <EllipseLoading />}
+          {evoList.map((evo) => (
+            <Tippy
+              key={`${evo.species.name} - Evolucion`}
+              className="capitalize"
+              content={`${evo.species.name}${
+                evo.evolution_details[0] && evo.evolution_details[0].min_level
+                  ? ` - lvl${evo.evolution_details[0].min_level}`
+                  : ""
+              }`}
+            >
+              <button
+                className="capitalize ml-3 py-1 px-2 rounded-sm hover:shadow-sm hover:bg-slate-100"
+                onClick={() => openModal(evo.species)}
+              >
+                {evo.species.name}
+              </button>
+            </Tippy>
           ))}
         </div>
         <div className="w-full flex flex-row justify-center mt-8">
